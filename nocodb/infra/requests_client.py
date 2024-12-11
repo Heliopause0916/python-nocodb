@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List, Dict, Any
 from ..nocodb import (
     NocoDBClient,
     NocoDBProject,
@@ -231,10 +231,78 @@ class NocoDBRequestsClient(NocoDBClient):
         ).json()
 
     def project_users_list(
-        self, project: NocoDBProject,
-    ) -> dict:
-        print(self.__api_info.get_project_users_uri(project))
+        self,
+        project: NocoDBProject,
+        page: int = 1,
+        page_size: int = 25,
+        include_roles: bool = True,
+    ) -> Dict[str, Any]:
+        """
+        Fetch project users with pagination support.
+        
+        Args:
+            project (NocoDBProject): The project to fetch users from
+            page (int): Page number (1-based indexing)
+            page_size (int): Number of items per page
+            include_roles (bool): Whether to include user roles in the response
+        
+        Returns:
+            Dict containing:
+                - list: List of users for the current page
+                - pageInfo: Pagination information including total count
+        """
+        params = {
+            "limit": page_size,
+            "offset": (page - 1) * page_size,
+        }
+        
+        if include_roles:
+            params["include_roles"] = "true"
+
         return self._request(
             "GET",
             url=self.__api_info.get_project_users_uri(project),
+            params=params,
         ).json()
+
+    def project_users_list_all(
+        self,
+        project: NocoDBProject,
+        include_roles: bool = True,
+        page_size: int = 25,
+    ) -> List[Dict[str, Any]]:
+        """
+        Fetch all project users by automatically handling pagination.
+        
+        Args:
+            project (NocoDBProject): The project to fetch users from
+            include_roles (bool): Whether to include user roles in the response
+            page_size (int): Number of items to fetch per request
+        
+        Returns:
+            List of all users in the project
+        """
+        all_users = []
+        page = 1
+        
+        while True:
+            response = self.project_users_list(
+                project=project,
+                page=page,
+                page_size=page_size,
+                include_roles=include_roles
+            )
+            
+            users = response.get("list", [])
+            all_users.extend(users)
+            
+            # Check if we've reached the end of the pagination
+            page_info = response.get("pageInfo", {})
+            total_pages = (page_info.get("totalRows", 0) + page_size - 1) // page_size
+            
+            if page >= total_pages or not users:
+                break
+                
+            page += 1
+        
+        return all_users
