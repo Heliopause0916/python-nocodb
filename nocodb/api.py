@@ -80,7 +80,7 @@ class NocoDBAPI:
         return urljoin(self.__base_meta_uri, "/".join(
             (
                 "projects",
-                project.project_name,
+                project.project_id,
                 "tables"
             )
         ))
@@ -91,7 +91,7 @@ class NocoDBAPI:
         return urljoin(self.__base_meta_uri, "/".join(
             (
                 "projects",
-                project.project_name,
+                project.project_id,
                 "users"
             )
         ))

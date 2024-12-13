@@ -55,9 +55,10 @@ class WhereFilter(ABC):
 
 
 class NocoDBProject:
-    def __init__(self, org_name: str, project_name: str):
+    def __init__(self, org_name: str, project_name: str, project_id: Optional[str] = None):
         self.project_name = project_name
         self.org_name = org_name
+        self.project_id = project_id
 
 
 class NocoDBClient:
