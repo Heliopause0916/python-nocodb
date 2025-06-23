@@ -8,7 +8,6 @@
 
 **Note: This is a fork of [python-nocodb](https://github.com/elchicodepython/python-nocodb) with extended functionality.**
 
-<img src="https://www.nocodb.com/brand/nocodb-banner.png" alt="NocoDB Banner" width="600"/>
 
 NocoDB is a great Airtable alternative. This client allows python developers
 to use NocoDB API in a simple way.
@@ -17,35 +16,56 @@ to use NocoDB API in a simple way.
 
 ## 📌 Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Client Configuration](#client-configuration)
-  - [Project Creation](#project-creation)
-  - [Table Row Operations](#table-row-operations)
-  - [Table Operations](#table-operations)
-  - [Table Column Operations](#table-column-operations)
-  - [View Filter Operations](#view-filter-operations)
-  - [Project Users Management](#project-users-management)
-  - [Available Filters](#available-filters)
-  - [Custom Filters](#custom-filters)
-- [Version Information](#version-information)
-- [Contributors](#contributors)
-
-- [Contributors Guidelines](contributors.md)
+- [🚀 NocoDB Python Client](#-nocodb-python-client)
+  - [📌 Table of Contents](#-table-of-contents)
+  - [📥 Installation](#-installation)
+  - [🔧 Usage](#-usage)
+    - [🔑 Client configuration](#-client-configuration)
+    - [📊 Project creation](#-project-creation)
+    - [Project selection](#project-selection)
+    - [Table rows operations](#table-rows-operations)
+    - [📋 Table Operations](#-table-operations)
+    - [🔢 Table Column Operations](#-table-column-operations)
+    - [🔍 View Filter Operations](#-view-filter-operations)
+    - [👥 Project Users Management](#-project-users-management)
+    - [🔎 Available filters](#-available-filters)
+      - [Combining filters using Logical operations](#combining-filters-using-logical-operations)
+    - [Using custom filters](#using-custom-filters)
+  - [Author notes](#author-notes)
+  - [📋 Version Information](#-version-information)
+    - [✨ Features Overview](#-features-overview)
+    - [📈 Key Benefits](#-key-benefits)
+    - [🏗️ Architecture](#️-architecture)
+  - [👨‍💻 Contributors](#-contributors)
+    - [Original Authors](#original-authors)
+    - [Fork Maintainer](#fork-maintainer)
 
 ## 📥 Installation
 
+Since this is a fork with additional functionality, install directly from the GitHub repository:
+
 ```bash
-pip install nocodb
+pip install git+https://github.com/DeepCognition/python-nocodb.git
 ```
 
 <details>
 <summary>Development Installation</summary>
 
 ```bash
-git clone https://github.com/santoshray02/python-nocodb.git
+git clone https://github.com/DeepCognition/python-nocodb.git
 cd python-nocodb
 pip install -e .
+```
+
+</details>
+
+<details>
+<summary>Original Package</summary>
+
+If you want the original package without the enhancements:
+
+```bash
+pip install nocodb
 ```
 
 </details>
@@ -449,7 +469,7 @@ graph TD
 - Jan Scheiper @jangxx
 
 ### Fork Maintainer
-- Santosh Ray - VP of Technology [@santoshray02](https://github.com/santoshray02)
+- Santosh Ray - VP of Technology [@santoshray02](https://github.com/santoshray02) (DeepCognition)
   - Added bulk insert functionality
   - Refactored project identification to use project_id instead of project_name in API endpoints
   - Implemented and fixed project users listing functionality
