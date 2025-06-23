@@ -38,6 +38,17 @@ class NocoDBAPI:
             )
         )
 
+    def get_table_bulk_uri(self, project: NocoDBProject, table: str) -> str:
+        """Return the URI for bulk insert/update operations on a table."""
+        return urljoin(self.__base_data_uri, "/".join(
+            (
+                "bulk",
+                project.org_name,
+                project.project_name,
+                table,
+            )
+        ))
+
     def get_row_detail_uri(
         self, project: NocoDBProject, table: str, row_id: int
     ):

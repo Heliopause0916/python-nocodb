@@ -85,6 +85,24 @@ class NocoDBClient:
         pass
 
     @abstractmethod
+    def table_row_bulk_insert(
+        self,
+        project: NocoDBProject,
+        table: str,
+        body: list[dict],
+    ) -> dict:
+        """Bulk insert multiple rows into a table.
+
+        Args:
+            project: The NocoDB project information.
+            table: Target table name.
+            body: List of row dictionaries to insert.
+        Returns:
+            API JSON response.
+        """
+        pass
+
+    @abstractmethod
     def table_row_detail(
         self, project: NocoDBProject, table: str, row_id: int
     ) -> dict:

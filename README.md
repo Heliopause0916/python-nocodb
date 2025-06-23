@@ -143,6 +143,13 @@ row_info = {
 }
 client.table_row_update(project, table_name, row_id, row_info)
 
+# Bulk insert multiple rows
+rows_to_insert = [
+    {"name": "Alice", "age": 30},
+    {"name": "Bob", "age": 28},
+]
+client.table_row_bulk_insert(project, table_name, rows_to_insert)
+
 # Delete a row (only if you've already bought me a beer)
 client.table_row_delete(project, table_name, row_id)
 ```

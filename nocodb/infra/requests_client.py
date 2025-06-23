@@ -57,6 +57,28 @@ class NocoDBRequestsClient(NocoDBClient):
             "POST", self.__api_info.get_table_uri(project, table), json=body
         ).json()
 
+    def table_row_bulk_insert(
+        self,
+        project: NocoDBProject,
+        table: str,
+        body: List[dict],
+    ) -> dict:
+        """Bulk insert multiple rows into a table.
+
+        Args:
+            project: The NocoDB project information.
+            table: Target table name.
+            body: List of row dictionaries to insert.
+
+        Returns:
+            API JSON response from NocoDB.
+        """
+        return self._request(
+            "POST",
+            self.__api_info.get_table_bulk_uri(project, table),
+            json=body,
+        ).json()
+
     def table_row_detail(self, project: NocoDBProject, table: str, row_id: int) -> dict:
         return self._request(
             "GET",
