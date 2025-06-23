@@ -1,19 +1,58 @@
-# NocoDB Python Client
+<div align="center">
+
+# 🚀 NocoDB Python Client
+
+[![PyPI version](https://img.shields.io/badge/pypi-v0.4.0-blue.svg)](https://pypi.org/project/nocodb/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Python Versions](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9%20%7C%203.10-blue)](https://pypi.org/project/nocodb/)
+
+**Note: This is a fork of [python-nocodb](https://github.com/elchicodepython/python-nocodb) with extended functionality.**
+
+<img src="https://www.nocodb.com/brand/nocodb-banner.png" alt="NocoDB Banner" width="600"/>
 
 NocoDB is a great Airtable alternative. This client allows python developers
 to use NocoDB API in a simple way.
 
-- [Contributors guidelines](contributors.md)
+</div>
 
-## Installation
+## 📌 Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Client Configuration](#client-configuration)
+  - [Project Creation](#project-creation)
+  - [Table Row Operations](#table-row-operations)
+  - [Table Operations](#table-operations)
+  - [Table Column Operations](#table-column-operations)
+  - [View Filter Operations](#view-filter-operations)
+  - [Project Users Management](#project-users-management)
+  - [Available Filters](#available-filters)
+  - [Custom Filters](#custom-filters)
+- [Version Information](#version-information)
+- [Contributors](#contributors)
+
+- [Contributors Guidelines](contributors.md)
+
+## 📥 Installation
 
 ```bash
 pip install nocodb
 ```
 
-## Usage
+<details>
+<summary>Development Installation</summary>
 
-### Client configuration
+```bash
+git clone https://github.com/santoshray02/python-nocodb.git
+cd python-nocodb
+pip install -e .
+```
+
+</details>
+
+## 🔧 Usage
+
+### 🔑 Client configuration
 ```python
 from nocodb.nocodb import NocoDBProject, APIToken, JWTAuthToken
 from nocodb.filters import LikeFilter, EqFilter, And
@@ -37,7 +76,7 @@ client = NocoDBRequestsClient(
 )
 ```
 
-### Project creation
+### 📊 Project creation
 ```python
 # Example with default database
 project_body = {"title": "My new project"}
@@ -154,7 +193,107 @@ client.table_row_bulk_insert(project, table_name, rows_to_insert)
 client.table_row_delete(project, table_name, row_id)
 ```
 
-### Available filters
+### 📋 Table Operations
+
+```python
+# List all tables in a project
+tables = client.table_list(project)
+
+# Read table metadata
+table_id = "table_id_from_table_list"
+table_metadata = client.table_read(table_id)
+
+# Get detailed table info
+table_info = client.table_info(table_id)
+
+# Create a new table
+table_body = {
+    "table_name": "NewTableName",
+    "columns": [
+        {
+            "title": "Title",
+            "column_name": "title",
+            "dt": "varchar"
+        },
+        {
+            "title": "Description",
+            "column_name": "description",
+            "dt": "text"
+        }
+    ]
+}
+client.table_create(project, table_body)
+
+# Update a table
+table_update_body = {
+    "table_name": "UpdatedTableName"
+}
+client.table_update(table_id, table_update_body)
+
+# Reorder a table
+client.table_reorder(table_id, order=2)
+
+# Delete a table
+client.table_delete(table_id)
+```
+
+### 🔢 Table Column Operations
+
+```python
+# Create a new column in a table
+column_body = {
+    "title": "Rating",
+    "column_name": "rating",
+    "dt": "int"
+}
+client.table_column_create(table_id, column_body)
+
+# Update a column
+column_id = "column_id_from_table_info"
+column_update_body = {
+    "title": "Score"
+}
+client.table_column_update(column_id, column_update_body)
+
+# Set a column as primary
+client.table_column_set_primary(column_id)
+
+# Delete a column
+client.table_column_delete(column_id)
+```
+
+### 🔍 View Filter Operations
+
+```python
+# Create a filter for a view
+view_id = "view_id_from_view_list"
+filter_body = {
+    "comparison_op": "eq",
+    "value": "Active",
+    "fk_column_id": column_id
+}
+client.view_filter_create(view_id, filter_body)
+```
+
+### 👥 Project Users Management
+
+```python
+# Get users for a project with pagination
+users_page = client.project_users_list(
+    project, 
+    page=1, 
+    page_size=25, 
+    include_roles=True
+)
+
+# Get all users for a project (automatically handles pagination)
+all_users = client.project_users_list_all(
+    project, 
+    include_roles=True
+)
+```
+
+### 🔎 Available filters
 
 - EqFilter
 - EqualFilter (Alias of EqFilter)
@@ -247,13 +386,76 @@ it has what I needed: A full CRUD with some filters.
 
 Feel free to add new capabilities by creating a new MR.
 
-## Contributors
+## 📋 Version Information
+
+<div align="center">
+
+### ✨ Features Overview
+
+| Feature Category | Capabilities |
+|-----------------|-------------|
+| 📝 **Row Operations** | Create, Read, Update, Delete, Bulk Insert |
+| 📊 **Table Management** | Create, List, Read, Update, Delete, Reorder |
+| 🔢 **Column Management** | Create, Update, Delete, Set Primary |
+| 👥 **User Management** | List with pagination, List all users |
+| 🔍 **Filtering** | Multiple filter types, Custom filters, Combined conditions |
+| 🔎 **Query Options** | Sorting, Pagination, Field selection |
+
+</div>
+
+<div align="center">
+
+### 📈 Key Benefits
+
+<table>
+  <tr>
+    <td align="center"><b>🚀 Efficient</b><br>Bulk operations support</td>
+    <td align="center"><b>🛠️ Complete</b><br>Full CRUD functionality</td>
+    <td align="center"><b>🔍 Flexible</b><br>Advanced filtering</td>
+  </tr>
+  <tr>
+    <td align="center"><b>🧩 Extensible</b><br>Custom filter support</td>
+    <td align="center"><b>👥 Collaborative</b><br>User management</td>
+    <td align="center"><b>📊 Powerful</b><br>Table & column operations</td>
+  </tr>
+</table>
+
+</div>
+
+<div align="center">
+
+### 🏗️ Architecture
+
+```mermaid
+graph TD
+    A[Client Application] -->|uses| B(NocoDBClient)
+    B -->|implements| C[NocoDBRequestsClient]
+    C -->|uses| D[NocoDBAPI]
+    D -->|constructs| E[API URIs]
+    C -->|sends| F[HTTP Requests]
+    F -->|to| G[NocoDB Server]
+```
+
+</div>
+
+## 👨‍💻 Contributors
 
 ![Contributors image](https://contrib.rocks/image?repo=elchicodepython/python-nocodb)
 
-
+### Original Authors
 - Samuel López Saura @elchicodepython
 - Ilya Sapunov @davert0
 - Delena Malan @delenamalan
 - Jan Scheiper @jangxx
+
+### Fork Maintainer
+- Santosh Ray - VP of Technology [@santoshray02](https://github.com/santoshray02)
+  - Added bulk insert functionality
+  - Refactored project identification to use project_id instead of project_name in API endpoints
+  - Implemented and fixed project users listing functionality
+  - Added user API endpoints
+  - Created view filter implementation
+  - Added table_info function to retrieve table metadata
+  - Fixed UnicodeDecodeError by specifying UTF-8 encoding when reading README.md
+  - Enhanced documentation for all features
 
